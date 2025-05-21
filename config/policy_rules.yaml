@@ -1,0 +1,137 @@
+# DeFi Advisor Wallet Policy Rules
+
+# Transaction Policies
+transaction_policies:
+  # Value Limits
+  value_limits:
+    max_single_transaction: 5000.0  # USD
+    max_daily_volume: 25000.0  # USD
+    min_transaction_value: 50.0  # USD
+    emergency_threshold: 10000.0  # Require additional approval above this
+
+  # Time-based Rules
+  time_restrictions:
+    trading_hours:
+      start: "00:00 UTC"
+      end: "23:59 UTC"
+    cooldown_periods:
+      same_token: 300  # Seconds between trades of same token
+      large_trades: 3600  # 1 hour between trades > $1000
+
+  # Asset Rules
+  asset_rules:
+    allowed_tokens:
+      - "SOL"
+      - "USDC"
+      - "RAY"
+      - "SRM"
+      - "ORCA"
+    forbidden_tokens:
+      - "UNKNOWN"
+      - "UNVERIFIED"
+    max_allocation_per_token: 0.40  # 40% maximum per token
+
+# Protocol Policies
+protocol_policies:
+  allowed_protocols:
+    - name: "Jupiter"
+      contract_address: "JUP4Fb2cqiRUcaTHdrPC8h2gNsA2ETXiPDD33WcGuJB"
+      allowed_operations:
+        - "SWAP"
+        - "ROUTE"
+    - name: "Raydium"
+      contract_address: "RVKd61ztZW9GUwhRbbLoYVRE5Xf1B2tVscKqwZqXgEr"
+      allowed_operations:
+        - "SWAP"
+        - "ADD_LIQUIDITY"
+        - "REMOVE_LIQUIDITY"
+    - name: "Orca"
+      contract_address: "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc"
+      allowed_operations:
+        - "SWAP"
+        - "WHIRLPOOL_SWAP"
+
+# Risk Management Policies
+risk_policies:
+  portfolio_limits:
+    max_drawdown: 0.20  # 20% maximum drawdown
+    min_diversification: 3  # Minimum number of tokens
+    stable_coin_minimum: 0.10  # 10% minimum in stable coins
+
+  slippage_controls:
+    max_slippage: 0.01  # 1% maximum slippage
+    price_impact_limit: 0.02  # 2% maximum price impact
+    routing_attempts: 3  # Maximum routing attempts
+
+  volatility_controls:
+    max_token_volatility: 0.50  # 50% maximum token volatility
+    portfolio_volatility_limit: 0.30  # 30% portfolio volatility limit
+
+# Security Policies
+security_policies:
+  # Authentication
+  authentication:
+    required_signers: 1
+    multi_sig_threshold: 10000.0  # USD value requiring multiple signatures
+
+  # Network Security
+  network:
+    allowed_networks:
+      - "mainnet-beta"
+      - "devnet"  # For testing only
+    rpc_endpoints:
+      - "https://api.mainnet-beta.solana.com"
+      - "https://solana-api.projectserum.com"
+
+  # Smart Contract Security
+  smart_contract:
+    allowed_instruction_types:
+      - "Transfer"
+      - "Swap"
+      - "Stake"
+      - "Unstake"
+    forbidden_instruction_types:
+      - "Initialize"
+      - "Close"
+      - "SetAuthority"
+
+# Monitoring & Alerts
+monitoring_policies:
+  transaction_monitoring:
+    log_all_transactions: true
+    alert_on_failure: true
+    alert_thresholds:
+      large_transaction: 1000.0  # USD
+      suspicious_pattern: 3  # Number of similar transactions
+
+  performance_monitoring:
+    track_metrics:
+      - "portfolio_value"
+      - "risk_score"
+      - "asset_allocation"
+      - "transaction_costs"
+    alert_conditions:
+      value_drop: 0.10  # 10% drop
+      risk_increase: 0.20  # 20% risk increase
+
+# Recovery & Emergency Procedures
+emergency_policies:
+  circuit_breakers:
+    market_conditions:
+      max_market_drop: 0.15  # 15% market drop
+      volatility_threshold: 0.40  # 40% market volatility
+      trading_volume_drop: 0.50  # 50% volume drop
+
+  emergency_actions:
+    - condition: "market_crash"
+      action: "convert_to_stable"
+      threshold: 0.20  # 20% market drop
+    - condition: "high_volatility"
+      action: "reduce_exposure"
+      threshold: 0.35  # 35% volatility
+
+  recovery_procedures:
+    - "halt_all_trading"
+    - "notify_administrators"
+    - "secure_assets"
+    - "wait_for_manual_override" 

@@ -1,0 +1,88 @@
+# DeFi Advisor Agent Configuration
+
+# Agent Settings
+agent:
+  name: defi_advisor
+  version: "1.0.0"
+  update_interval: 300  # 5 minutes
+  max_concurrent_operations: 3
+
+# Portfolio Settings
+portfolio:
+  min_position_size_usd: 100.0
+  max_position_size_usd: 10000.0
+  target_risk_score: 0.7
+  rebalance_threshold: 0.05  # 5% deviation triggers rebalance
+  max_slippage: 0.01  # 1% max slippage
+  gas_price_limit: 100  # Maximum gas price in GWEI
+
+# Risk Management
+risk:
+  max_drawdown: 0.20  # 20% maximum drawdown
+  min_sharpe_ratio: 1.0
+  volatility_threshold: 0.30  # 30% annualized volatility limit
+  correlation_threshold: 0.75  # Maximum correlation between assets
+
+# Asset Allocation
+allocation:
+  max_single_asset: 0.40  # Maximum 40% in single asset
+  min_assets: 3  # Minimum number of assets
+  stable_coin_minimum: 0.10  # Minimum 10% in stable coins
+  asset_classes:
+    defi_tokens: 0.40
+    stable_coins: 0.20
+    platform_tokens: 0.20
+    yield_tokens: 0.20
+
+# Protocol Integration
+protocols:
+  jupiter:
+    enabled: true
+    min_route_value: 10.0  # Minimum USD value for route
+    max_route_splits: 3  # Maximum number of split routes
+  raydium:
+    enabled: true
+    min_liquidity: 100000.0  # Minimum pool liquidity
+  orca:
+    enabled: true
+    whirlpool_only: true  # Use only concentrated liquidity pools
+
+# Oracle Settings
+oracles:
+  pyth:
+    primary: true
+    max_staleness: 60  # Maximum price feed staleness in seconds
+  chainlink:
+    enabled: true
+    fallback: true  # Use as fallback for Pyth
+
+# Performance Monitoring
+monitoring:
+  metrics_interval: 60  # Metrics update interval in seconds
+  alert_thresholds:
+    portfolio_value_drop: 0.10  # Alert on 10% drop
+    risk_score_increase: 0.20  # Alert on 20% risk increase
+    gas_price_spike: 200  # Alert on gas price above 200 GWEI
+  daily_summary: true
+  transaction_notifications: true
+
+# Security
+security:
+  max_daily_transactions: 50
+  max_transaction_value: 5000.0  # Maximum single transaction in USD
+  required_confirmations: 2  # Required block confirmations
+  cooldown_period: 300  # Seconds between similar operations
+
+# Model Settings
+model:
+  risk_assessment:
+    window_size: 30  # Days of historical data
+    confidence_threshold: 0.80
+    update_frequency: 86400  # Retrain daily
+  portfolio_optimization:
+    objective: "sharpe_ratio"  # Alternative: "sortino_ratio"
+    constraints:
+      - "min_weight"
+      - "max_weight"
+      - "sector_exposure"
+    rebalance_frequency: 604800  # Weekly optimization 
